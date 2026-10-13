@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PE Revision Guide: Recovery of Energy Systems</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #2563eb;
+            --bg-main: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #0f172a;
+            --text-muted: #475569;
+            --border-color: #cbd5e1;
+            --success: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-dark);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .student-bar {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .student-info {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .student-info label {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .student-info input {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            width: 250px;
+        }
+
+        .stats-badge {
+            background: #eff6ff;
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            border: 1px solid #bfdbfe;
+        }
+
+        .control-panel {
+            background: var(--card-bg);
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 25px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: flex-start;
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary { background: var(--primary-light); color: white; }
+        .btn-primary:hover { background: var(--primary); }
+        .btn-success { background: var(--success); color: white; }
+        .btn-success:hover { background: #047857; }
+        .btn-warning { background: var(--warning); color: white; }
+        .btn-warning:hover { background: #b45309; }
+        .btn-secondary { background: #64748b; color: white; }
+        .btn-secondary:hover { background: #475569; }
+
+        .question-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 22px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+            transition: border-color 0.2s;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .question-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        .marks-badge {
+            background: #f1f5f9;
+            color: var(--text-muted);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .question-context {
+            background: #f8fafc;
+            border-left: 4px solid var(--primary-light);
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1e293b;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 110px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .feedback-box {
+            display: none;
+            margin-top: 15px;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .feedback-box.visible {
+            display: block;
+        }
+
+        .feedback-box.graded {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+        }
+
+        .feedback-box.unattempted {
+            background: #fffbebfb;
+            border: 1px solid #fde68a;
+            color: #92400e;
+        }
+
+        .score-display {
+            font-weight: bold;
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+        }
+
+        .criteria-list {
+            margin: 10px 0 15px 20px;
+            font-size: 0.9rem;
+        }
+
+        .criteria-list li {
+            margin-bottom: 4px;
+        }
+
+        .matched { color: var(--success); font-weight: 600; }
+        .missed { color: var(--danger); }
+
+        .model-answer {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .model-answer-title {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .status-msg {
+            font-size: 0.85rem;
+            color: var(--success);
+            font-weight: 600;
+            margin-left: 10px;
+            display: none;
+        }
+
+        @media print {
+            .control-panel, .btn { display: none; }
+            textarea { border: none; background: #f8fafc; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>A-Level / GCSE PE Interactive Revision Guide</h1>
+        <p>Topic: Recovery of Energy Systems & Post-Exercise Strategies</p>
+    </header>
+
+    <div class="student-bar">
+        <div class="student-info">
+            <label for="studentName">Student Name:</label>
+            <input type="text" id="studentName" placeholder="Enter your full name..." oninput="autoSave()">
+            <span id="saveStatus" class="status-msg">✓ Saved</span>
+        </div>
+        <div class="stats-badge" id="overallStats">
+            Attempted: 0/13 | Total Score: - / 48
+        </div>
+    </div>
+
+    <div class="control-panel">
+        <button class="btn btn-primary" onclick="manualSave()">💾 Save Progress</button>
+        <button class="btn btn-success" onclick="markAllAttempted()">✔ Mark My Answers</button>
+        <button class="btn btn-warning" onclick="exportGoogleDoc()">📄 Download as Google Doc</button>
+        <button class="btn btn-secondary" onclick="copyForGoogleDoc()">📋 Copy for Google Docs</button>
+        <button class="btn btn-secondary" onclick="exportJSON()">📥 Save File (JSON)</button>
+    </div>
+
+    <div id="questionsContainer"></div>
+</div>
+
+<script>
+const questionsData = [
+    {
+        id: "q1",
+        title: "Question 1 (8 Marks)",
+        marks: 8,
+        context: "Nikki is in a gymnastics competition. Before the competition she warms up thoroughly to reduce the risk of injury. Nikki's floor routine requires power, speed and the ability to work at high intensity for up to 90 seconds.",
+        question: "Analyse the nutritional strategies Nikki should consider to recover after her floor routine.",
+        criteria: [
+            { text: "Protein Strategy Identified (e.g. consuming protein post-routine)", keywords: ["protein", "proteine", "whey", "amino acid"], points: 1 },
+            { text: "Protein Explanation: Repairs micro-tears in muscle fibers / stimulates protein synthesis / hypertrophy", keywords: ["repair", "micro-tear", "microtear", "damage", "rebuild", "synthesis", "hypertrophy"], points: 2 },
+            { text: "Carbohydrate Strategy Identified (e.g. consuming carbs/glycogen loading)", keywords: ["carbohydrate", "carbo", "carb", "glycogen", "glucose"], points: 1 },
+            { text: "Carbohydrate Explanation: Replenishes muscle glycogen stores depleted during high-intensity 90s exercise / delays fatigue", keywords: ["deplete", "replenish", "store", "glycogen", "fatigue", "energy", "restore"], points: 2 },
+            { text: "Hydration Strategy Identified (e.g. drinking water/isotonic fluids)", keywords: ["hydration", "water", "fluid", "drink", "isotonic", "rehydrate"], points: 1 },
+            { text: "Hydration Explanation: Replaces fluids lost via sweat / regulates body temperature / prevents overheating", keywords: ["sweat", "loss", "temperature", "cool", "thermoregulation", "heat", "dehydration"], points: 1 }
+        ],
+        modelAnswer: "<b>Protein Strategy:</b> Nikki should consume protein (e.g. protein shake or lean meat) shortly after her routine to repair micro-tears created in muscle fibers during intense explosive movement, aiding muscle synthesis.<br><b>Carbohydrate Strategy:</b> High-intensity exercise lasting up to 90 seconds heavily relies on anaerobic glycolysis, depleting muscle glycogen stores. Consuming high-GI carbohydrates replaces depleted glycogen and restores energy levels.<br><b>Hydration Strategy:</b> Consuming water or isotonic drinks replaces fluids lost through sweating, helping regulate body temperature and preventing dehydration."
+    },
+    {
+        id: "q2",
+        title: "Question 2 (8 Marks)",
+        marks: 8,
+        context: "Jack is a rugby player. Each week Jack attends his strength training sessions and a two-hour aerobic training session. To maintain the quality of his rugby performance he also uses a nutritional strategy.",
+        question: "Assess the importance of an appropriate protein and carbohydrate nutritional strategy in helping Jack's recovery after his training sessions and future rugby performance.",
+        criteria: [
+            { text: "Protein Strategy for Strength Session: Essential for muscle repair and hypertrophy", keywords: ["protein", "repair", "micro-tear", "hypertrophy", "strength", "rebuild"], points: 2 },
+            { text: "Impact on Rugby Performance (Protein): Increases muscle power/strength for tackling, lineouts, or scrums and reduces injury risk", keywords: ["tackle", "tackling", "scrum", "lineout", "power", "strength", "injury", "force"], points: 2 },
+            { text: "Carbohydrate Strategy for Aerobic Session: Replenishes depleted glycogen stores after 2-hour session", keywords: ["carbohydrate", "carb", "glycogen", "replenish", "2 hour", "aerobic", "store"], points: 2 },
+            { text: "Impact on Rugby Performance (Carbohydrate): Delays fatigue, allowing Jack to sustain high-intensity performance across full 80-minute match", keywords: ["fatigue", "delay", "intensity", "match", "sustain", "duration", "endurance"], points: 2 }
+        ],
+        modelAnswer: "<b>Protein Strategy:</b> Following strength training, consuming protein promotes protein synthesis to repair micro-tears in muscle tissue, driving muscle hypertrophy. This boosts physical strength and power, allowing Jack to make effective tackles and execute powerful movements in rugby.<br><b>Carbohydrate Strategy:</b> The 2-hour aerobic training session heavily depletes muscle glycogen. Consuming carbohydrates post-workout replenishes glycogen stores, preventing chronic fatigue and enabling Jack to maintain high work rate and skill execution throughout matches."
+    },
+    {
+        id: "q3",
+        title: "Question 3 (6 Marks)",
+        marks: 6,
+        context: "James joins a boxing club. During a training session James's muscles become fatigued. After the training session, James's energy systems need to recover.",
+        question: "Describe how excess post-exercise oxygen consumption (EPOC) aids recovery of two different energy systems.",
+        criteria: [
+            { text: "System 1 Identification: ATP-PC / Alactacid system / Fast component of EPOC", keywords: ["atp-pc", "atp", "pc", "alactacid", "fast component", "phosphocreatine"], points: 1 },
+            { text: "System 1 Recovery Process: Extra oxygen is used to resynthesise ATP and phosphocreatine (PC) stores and replenish myoglobin with oxygen (takes 2-3 minutes)", keywords: ["resynthesise", "resynthesis", "replenish", "myoglobin", "pc", "phosphocreatine", "atp"], points: 2 },
+            { text: "System 2 Identification: Lactate system / Lactacid / Slow component of EPOC", keywords: ["lactate", "lactic", "lactacid", "slow component", "glycolysis"], points: 1 },
+            { text: "System 2 Recovery Process: Elevated oxygen uptake breaks down/removes accumulated lactic acid (converting it into pyruvate, glucose, glycogen, CO2, and water)", keywords: ["remove", "breakdown", "lactic acid", "lactate", "pyruvate", "glucose", "co2", "water", "glycogen"], points: 2 }
+        ],
+        modelAnswer: "<b>1. Fast Component (ATP-PC System):</b> Elevated oxygen consumption immediately post-exercise provides the necessary energy to resynthesise depleted ATP and phosphocreatine (PC) stores in the muscles, as well as re-saturating myoglobin with oxygen (fully completed within 2-3 minutes).<br><b>2. Slow Component (Lactate System):</b> Continued elevated oxygen uptake provides energy to break down and remove accumulated lactic acid/lactate, converting it back into pyruvate, glucose, glycogen, carbon dioxide, and water."
+    },
+    {
+        id: "q4_i",
+        title: "Question 4 (i) (3 Marks)",
+        marks: 3,
+        context: "Winter Olympic Athletes - Energy System Recovery post-event.",
+        question: "Describe the recovery process for the Lactate energy system.",
+        criteria: [
+            { text: "Oxygen requirement: Oxygen is needed to break down / remove accumulated lactic acid (lactate)", keywords: ["oxygen", "remove", "breakdown", "lactic", "lactate", "oxidise"], points: 1 },
+            { text: "Conversion products: Lactic acid is converted into glucose, glycogen, pyruvate, or CO2 & water", keywords: ["glucose", "glycogen", "pyruvate", "co2", "water", "carbon dioxide"], points: 1 },
+            { text: "Timeframe: Process takes between 20 minutes to 2 hours for complete removal", keywords: ["20 min", "20 minutes", "1 hour", "2 hours", "two hours", "20m"], points: 1 }
+        ],
+        modelAnswer: "The recovery of the lactate system requires oxygen to oxidize and break down accumulated lactic acid/lactate. Lactic acid is converted into pyruvate, glucose, glycogen, or carbon dioxide and water. This removal process typically takes between 20 minutes and 2 hours depending on severity and active recovery."
+    },
+    {
+        id: "q4_ii",
+        title: "Question 4 (ii) (3 Marks)",
+        marks: 3,
+        context: "Winter Olympic Athletes - Energy System Recovery post-event.",
+        question: "Describe the recovery process for the Aerobic energy system.",
+        criteria: [
+            { text: "Glycogen replenishment: Carbohydrates in diet are required to replenish depleted glycogen stores in muscles and liver", keywords: ["carbohydrate", "carb", "glycogen", "replenish", "restore", "diet"], points: 1 },
+            { text: "Myoglobin restoration: Oxygen is used to restore myoglobin stores in muscle tissue", keywords: ["myoglobin", "oxygen", "mitochondria", "re-saturate", "resaturate"], points: 1 },
+            { text: "Timeframe: Complete recovery takes between 24 to 48 hours (or 2 to 48 hours depending on depletion)", keywords: ["24", "48", "24-48", "24 to 48", "2 to 48", "hours", "days"], points: 1 }
+        ],
+        modelAnswer: "Aerobic recovery requires consuming dietary carbohydrates to replenish muscle and liver glycogen stores depleted during long duration activity. Oxygen is also used to restore oxygen bound to myoglobin in muscles. Full replenishment of glycogen stores takes approximately 24 to 48 hours."
+    },
+    {
+        id: "q6",
+        title: "Question 6 (2 Marks)",
+        marks: 2,
+        context: "Kai plays basketball. A basketball match lasts 40 minutes split into four periods, with a two-minute break between each period. Kai uses all three energy systems.",
+        question: "Explain how the ATP-PC system recovers between periods.",
+        criteria: [
+            { text: "Time required for full recovery: The ATP-PC system requires 3 minutes of rest for 100% PC resynthesis", keywords: ["3 min", "3 minutes", "three minutes", "full recovery", "100%"], points: 1 },
+            { text: "Impact of 2-minute break: A 2-minute break is insufficient for complete restoration (~85-90% restored) / oxygen is used to resynthesise PC", keywords: ["2 min", "2 minutes", "insufficient", "partial", "incomplete", "85%", "90%", "oxygen", "resynthesise"], points: 1 }
+        ],
+        modelAnswer: "Full resynthesis of phosphocreatine (PC) stores requires 3 minutes of rest. Because the break between periods is only 2 minutes, the ATP-PC system will only partially recover (approx. 85-90% replenished) using oxygen available during rest to rebuild PC."
+    },
+    {
+        id: "q7",
+        title: "Question 7 (2 Marks)",
+        marks: 2,
+        context: "Ava competes in ultra-distance bike races (at least 700km long).",
+        question: "Explain one nutritional strategy Ava should use to complete this endurance event.",
+        criteria: [
+            { text: "Strategy Identification: Carbohydrate loading before event OR consuming energy gels/bars/carbo drinks during event", keywords: ["carbo-loading", "carbohydrate loading", "carb loading", "gel", "bar", "carbohydrate drink", "during race", "during event"], points: 1 },
+            { text: "Explanation / Reason: Maximizes initial glycogen stores OR continuously replaces glycogen because stored body glycogen cannot last 700km", keywords: ["maximize", "store", "glycogen", "insufficient", "maintain energy", "sustain", "depletion"], points: 1 }
+        ],
+        modelAnswer: "Ava should use a carbohydrate loading strategy prior to the race (or consume carbohydrate gels/drinks during the race). Body glycogen stores are limited and cannot sustain a 700km ride; consuming extra carbohydrates ensures a continuous supply of glucose to maintain aerobic energy production."
+    },
+    {
+        id: "q8",
+        title: "Question 8 (3 Marks)",
+        marks: 3,
+        context: "Bill is a wheelchair athlete competing in 100m and 400m races. His 400m takes 1 minute 5 seconds. After the race, his breathing rate remains higher than at rest.",
+        question: "Explain one reason why Bill's breathing rate remains high after he finishes the race.",
+        criteria: [
+            { text: "Identification of Anaerobic Work / EPOC: 400m race relies on anaerobic energy system resulting in lactic acid accumulation / EPOC / oxygen debt", keywords: ["anaerobic", "lactic", "lactate", "epoc", "oxygen debt"], points: 1 },
+            { text: "Function of High Breathing Rate: Supplies elevated volume of oxygen to body", keywords: ["oxygen", "bring in", "supply", "take in", "extra oxygen"], points: 1 },
+            { text: "Specific Purpose: Oxygen is needed to break down/remove lactic acid, resynthesise ATP/PC, or restore myoglobin", keywords: ["break down", "remove", "lactic acid", "resynthesise", "pc", "myoglobin", "pay back"], points: 1 }
+        ],
+        modelAnswer: "Bill's 400m race relies heavily on anaerobic glycolysis, leading to lactic acid accumulation and an oxygen debt (EPOC). His breathing rate remains high post-race to take in additional oxygen required to break down and remove lactic acid and resynthesise phosphocreatine stores."
+    },
+    {
+        id: "q9",
+        title: "Question 9 (3 Marks)",
+        marks: 3,
+        context: "Ava drinks plenty of fluids during her 700km ultra-distance bike race to rehydrate.",
+        question: "Explain one reason why it is important that Ava rehydrates during her race.",
+        criteria: [
+            { text: "Fluid Loss Replacement: Replaces water/sweat lost during prolonged exercise to prevent dehydration", keywords: ["replace", "fluid", "sweat", "dehydration", "water loss"], points: 1 },
+            { text: "Thermoregulation Link: Essential to maintain sweating mechanism for body cooling / thermoregulation", keywords: ["sweat", "cool", "thermoregulation", "temperature", "overheating", "heat"], points: 1 },
+            { text: "Electrolyte / Performance Link: Replaces electrolytes lost in sweat to prevent muscle cramping / maintain muscle contractions and delay fatigue", keywords: ["electrolyte", "cramp", "cramping", "contraction", "fatigue", "viscosity", "blood"], points: 1 }
+        ],
+        modelAnswer: "Rehydration replaces fluid lost through sweating during prolonged cycling to prevent severe dehydration. Without adequate fluid, Ava cannot continue producing sweat to regulate her body temperature, leading to overheating, increased cardiovascular strain, and premature fatigue."
+    },
+    {
+        id: "q10",
+        title: "Question 10 (3 Marks)",
+        marks: 3,
+        context: "Byron is a long-distance cyclist.",
+        question: "Explain one reason why long-distance cyclists drink water during their event.",
+        criteria: [
+            { text: "Prevent Dehydration: Replaces water lost through sweating during cycling", keywords: ["sweat", "sweating", "dehydration", "replace water", "fluid"], points: 1 },
+            { text: "Blood Viscosity / Volume: Prevents blood volume from dropping and blood viscosity (thickness) from increasing", keywords: ["blood volume", "blood viscosity", "thickness", "thick", "viscous"], points: 1 },
+            { text: "Oxygen Transport / Cardiac Strain: Maintains efficient cardiac output and oxygen delivery to working muscles", keywords: ["cardiac", "heart", "oxygen transport", "delivery", "muscle", "strain"], points: 1 }
+        ],
+        modelAnswer: "Drinking water replaces fluid lost through sweating to prevent dehydration. Maintaining fluid levels prevents blood volume from dropping and blood viscosity from increasing, allowing the heart to pump blood efficiently and deliver oxygen to working muscles without excessive strain."
+    },
+    {
+        id: "q11",
+        title: "Question 11 (4 Marks)",
+        marks: 4,
+        context: "Scarlett is training for the London Marathon (42km). After daily 5km runs, she felt weak and her performance deteriorated.",
+        question: "Explain two nutritional strategies Scarlett could use to improve her running performance.",
+        criteria: [
+            { text: "Strategy 1 Identification: Carbohydrate loading / Increasing complex carb intake prior to runs", keywords: ["carbohydrate", "carb loading", "carbo-loading", "complex carb", "pasta", "rice"], points: 1 },
+            { text: "Strategy 1 Explanation: Maximizes muscle glycogen stores to provide sustainable energy for running", keywords: ["glycogen", "stores", "energy", "sustainable", "fuel"], points: 1 },
+            { text: "Strategy 2 Identification: Hydration strategy / Post-run protein intake / Gels during run", keywords: ["hydration", "water", "protein", "post-run", "gel", "isotonic"], points: 1 },
+            { text: "Strategy 2 Explanation: Protein repairs damaged muscle tissue / Hydration prevents fatigue & regulates temp / Gels provide immediate glucose", keywords: ["repair", "muscle", "damage", "dehydration", "glucose", "fatigue"], points: 1 }
+        ],
+        modelAnswer: "<b>Strategy 1: Carbohydrate Loading:</b> Scarlett should increase her intake of complex carbohydrates (e.g. pasta, rice) prior to training to maximize muscle glycogen stores, preventing her from feeling weak due to depleted fuel.<br><b>Strategy 2: Post-Run Protein Intake:</b> Scarlett should consume protein post-exercise to repair micro-tears in muscle tissue caused by daily running, facilitating recovery and adaptation."
+    },
+    {
+        id: "q12_i",
+        title: "Question 12 (i) (2 Marks)",
+        marks: 2,
+        context: "Selena is on a six-hour mountain bike ride at high altitude.",
+        question: "Explain why cyclists are given Carbohydrate drinks during the ride.",
+        criteria: [
+            { text: "Energy Supply: Provides glucose/carbohydrates for energy during prolonged activity", keywords: ["energy", "glucose", "carbohydrate", "fuel"], points: 1 },
+            { text: "Glycogen Depletion Context: Body glycogen stores are limited and deplete after ~2 hours, requiring exogenous carbs for a 6-hour ride", keywords: ["deplete", "limited", "2 hours", "store", "6 hour", "sustain", "fatigue"], points: 1 }
+        ],
+        modelAnswer: "Carbohydrate drinks supply glucose to maintain energy levels. Because body glycogen stores are limited and usually run out after around 2 hours, supplemental carbohydrates are essential to sustain energy across a 6-hour ride."
+    },
+    {
+        id: "q12_ii",
+        title: "Question 12 (ii) (2 Marks)",
+        marks: 2,
+        context: "Selena is on a six-hour mountain bike ride at high altitude.",
+        question: "Explain why cyclists are given Water during the ride.",
+        criteria: [
+            { text: "Fluid Replacement: Replaces water lost through sweating over the 6-hour duration to prevent dehydration", keywords: ["sweat", "dehydration", "replace", "fluid loss", "water loss"], points: 1 },
+            { text: "Thermoregulation / Circulation: Maintains blood volume, prevents blood viscosity rise, and enables body temperature regulation", keywords: ["temperature", "thermoregulation", "cool", "blood viscosity", "blood volume", "cardiovascular"], points: 1 }
+        ],
+        modelAnswer: "Water replaces fluids lost through sweating over six hours to prevent dehydration. Maintaining hydration preserves blood volume and allows effective thermoregulation so riders do not overheat."
+    },
+    {
+        id: "q13_i",
+        title: "Question 13 (i) (1 Mark)",
+        marks: 1,
+        context: "Pedro is a mixed martial arts fighter who lacks energy during training.",
+        question: "State one nutritional strategy Pedro should consider to make sure he has enough energy for training.",
+        criteria: [
+            { text: "Valid Strategy: Carbohydrate loading / High carbohydrate meal pre-training / Increasing complex carb intake", keywords: ["carbohydrate", "carb loading", "complex carb", "high carb", "carbo loading", "pasta"], points: 1 }
+        ],
+        modelAnswer: "Pedro should adopt a carbohydrate loading strategy (or eat a meal high in complex carbohydrates before training) to maximize muscle glycogen stores."
+    },
+    {
+        id: "q13_ii",
+        title: "Question 13 (ii) (1 Mark)",
+        marks: 1,
+        context: "Pedro could use dietary supplements to provide additional energy for training.",
+        question: "Give one example of a dietary supplement Pedro could take during a training session to provide additional energy.",
+        criteria: [
+            { text: "Valid Supplement Example: Carbohydrate gel / Isotonic energy drink / Glucose tablets / Energy bar / Lucozade / Gatorade", keywords: ["gel", "carb gel", "energy drink", "isotonic", "glucose tablet", "energy bar", "lucozade", "gatorade", "dextrose"], points: 1 }
+        ],
+        modelAnswer: "A carbohydrate gel (or isotonic sports drink / energy bar / glucose tablets)."
+    }
+];
+
+// Fuzzy Matching Helper Functions
+function levenshteinDistance(a, b) {
+    const matrix = [];
+    for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+    for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+    for (let i = 1; i <= b.length; i++) {
+        for (let j = 1; j <= a.length; j++) {
+            if (b.charAt(i - 1) === a.charAt(j - 1)) {
+                matrix[i][j] = matrix[i - 1][j - 1];
+            } else {
+                matrix[i][j] = Math.min(
+                    matrix[i - 1][j - 1] + 1,
+                    matrix[i][j - 1] + 1,
+                    matrix[i - 1][j] + 1
+                );
+            }
+        }
+    }
+    return matrix[b.length][a.length];
+}
+
+function wordMatchesFuzzy(word, target, maxDist = 2) {
+    word = word.toLowerCase().trim();
+    target = target.toLowerCase().trim();
+    if (word === target) return true;
+    if (word.includes(target) || target.includes(word)) return true;
+    if (Math.abs(word.length - target.length) > maxDist) return false;
+    return levenshteinDistance(word, target) <= maxDist;
+}
+
+function checkConceptFuzzy(text, keywords) {
+    const cleanText = text.toLowerCase().replace(/[^a-z0-9\s]/g, ' ');
+    const textWords = cleanText.split(/\s+/).filter(w => w.length > 0);
+
+    for (let kw of keywords) {
+        const kwLower = kw.toLowerCase();
+        if (cleanText.includes(kwLower)) return true;
+        
+        const kwTokens = kwLower.split(/\s+/);
+        if (kwTokens.length === 1) {
+            if (textWords.some(w => wordMatchesFuzzy(w, kwTokens[0]))) return true;
+        } else {
+            let matchAll = kwTokens.every(token => textWords.some(w => wordMatchesFuzzy(w, token)));
+            if (matchAll) return true;
+        }
+    }
+    return false;
+}
+
+// Render Questions
+function renderQuestions() {
+    const container = document.getElementById('questionsContainer');
+    container.innerHTML = '';
+
+    questionsData.forEach((q) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.id = `card_${q.id}`;
+
+        card.innerHTML = `
+            <div class="question-header">
+                <div class="question-title">${q.title}</div>
+                <div class="marks-badge">${q.marks} Marks Available</div>
+            </div>
+            ${q.context ? `<div class="question-context">${q.context}</div>` : ''}
+            <div class="question-text">${q.question}</div>
+            <textarea id="ans_${q.id}" placeholder="Type your answer here..." oninput="autoSave()"></textarea>
+            
+            <div class="feedback-box" id="feedback_${q.id}"></div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+// Auto Save & Local Storage
+function autoSave() {
+    const studentName = document.getElementById('studentName').value;
+    const answers = {};
+
+    questionsData.forEach(q => {
+        const val = document.getElementById(`ans_${q.id}`).value;
+        answers[q.id] = val;
+    });
+
+    const data = {
+        name: studentName,
+        answers: answers,
+        timestamp: new Date().toISOString()
+    };
+
+    localStorage.setItem('pe_revision_data', JSON.stringify(data));
+
+    const statusMsg = document.getElementById('saveStatus');
+    statusMsg.style.display = 'inline';
+    setTimeout(() => { statusMsg.style.display = 'none'; }, 2000);
+
+    updateStats();
+}
+
+function manualSave() {
+    autoSave();
+    alert('Progress saved successfully to your browser local storage!');
+}
+
+function loadSavedData() {
+    const saved = localStorage.getItem('pe_revision_data');
+    if (!saved) return;
+
+    try {
+        const data = JSON.parse(saved);
+        if (data.name) document.getElementById('studentName').value = data.name;
+        if (data.answers) {
+            questionsData.forEach(q => {
+                if (data.answers[q.id] !== undefined) {
+                    document.getElementById(`ans_${q.id}`).value = data.answers[q.id];
+                }
+            });
+        }
+        updateStats();
+    } catch(e) {
+        console.error("Failed to load saved data", e);
+    }
+}
+
+function updateStats() {
+    let attempted = 0;
+    questionsData.forEach(q => {
+        const text = document.getElementById(`ans_${q.id}`) ? document.getElementById(`ans_${q.id}`).value.trim() : '';
+        if (text.length > 5) attempted++;
+    });
+
+    document.getElementById('overallStats').innerText = `Attempted: ${attempted}/13 Questions`;
+}
+
+// Grading Logic
+function markAllAttempted() {
+    let totalScore = 0;
+    let totalAttemptedMarks = 0;
+    let attemptedCount = 0;
+
+    questionsData.forEach(q => {
+        const textarea = document.getElementById(`ans_${q.id}`);
+        const feedbackBox = document.getElementById(`feedback_${q.id}`);
+        const userText = textarea.value.trim();
+
+        // Check if question is FULLY attempted (at least 6 characters)
+        if (userText.length < 6) {
+            feedbackBox.className = 'feedback-box visible unattempted';
+            feedbackBox.innerHTML = `
+                <div class="score-display">⚠️ Question Not Attempted</div>
+                <p>Please write your answer above before requesting marks. Model answers and feedback are hidden until you attempt the question.</p>
+            `;
+            return;
+        }
+
+        attemptedCount++;
+        let qScore = 0;
+        let criteriaHTML = '<ul class="criteria-list">';
+
+        q.criteria.forEach(crit => {
+            const isMatched = checkConceptFuzzy(userText, crit.keywords);
+            if (isMatched) {
+                qScore += crit.points;
+                criteriaHTML += `<li class="matched">✓ [${crit.points} mark(s)]${crit.text}</li>`;
+            } else {
+                criteriaHTML += `<li class="missed">✗ [0/${crit.points} mark(s)]${crit.text}</li>`;
+            }
+        });
+
+        if (qScore > q.marks) qScore = q.marks;
+        totalScore += qScore;
+        totalAttemptedMarks += q.marks;
+
+        criteriaHTML += '</ul>';
+
+        feedbackBox.className = 'feedback-box visible graded';
+        feedbackBox.innerHTML = `
+            <div class="score-display">Mark Awarded: ${qScore} /${q.marks}</div>
+            <strong>Mark Scheme Breakdown:</strong>
+            ${criteriaHTML}
+            <div class="model-answer">
+                <div class="model-answer-title">Model Answer / Key Points:</div>
+                ${q.modelAnswer}
+            </div>
+        `;
+    });
+
+    document.getElementById('overallStats').innerText = `Attempted: ${attemptedCount}/13 | Total Score: ${totalScore} /${totalAttemptedMarks} (Max 48)`;
+    alert(`Marking Complete!\nYou scored ${totalScore} mark(s) across${attemptedCount} attempted question(s).`);
+}
+
+// Export Functions
+function exportJSON() {
+    const studentName = document.getElementById('studentName').value || 'Student';
+    const data = localStorage.getItem('pe_revision_data');
+    if (!data) {
+        alert('No saved data found to export.');
+        return;
+    }
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${studentName.replace(/\s+/g, '_')}_PE_Revision_Backup.json`;
+    a.click();
+}
+
+function generateHTMLDocumentContent() {
+    const name = document.getElementById('studentName').value || 'Anonymous Student';
+    const dateStr = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    let docHTML = `
+        <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='
